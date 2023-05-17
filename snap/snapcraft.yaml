@@ -32,7 +32,8 @@ apps:
   spack:
     command: bin/spack
     environment:
-      SPACK_SYSTEM_CONFIG_PATH: /opt/spack
+      MODULE_PATH: $SNAP_COMMON/share/spack/modules
+      SPACK_SYSTEM_CONFIG_PATH: $SNAP_COMMON
 
 parts:
   spack:

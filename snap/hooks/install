@@ -3,18 +3,18 @@
 set -ex
 
 # Copy Spack Config
-SPACK=/opt/$SNAP_NAME
+SPACK=$SNAP_COMMON
 
-if [ ! -d "$SPACK" ]; then
-    mkdir $SPACK
-    chmod 755 $SPACK
-fi
+#if [ ! -d "$SPACK" ]; then
+#    mkdir $SPACK
+#    chmod 755 $SPACK
+#fi
 
 # Copy over Spack configs
 cp $SNAP/etc/spack/defaults/config.yaml $SPACK/config.yaml
 cp $SNAP/etc/spack/defaults/modules.yaml $SPACK/modules.yaml
 
 # Update to use $SNAP_USER_COMMON
-sed -i 's@root: \$spack/opt/spack@root: /opt/spack@g' $SPACK/config.yaml
-sed -i 's@\$spack@/opt/spack@g' $SPACK/config.yaml
-sed -i 's@\$spack@/opt/spack@g' $SPACK/modules.yaml
+sed -i 's@root: \$spack/opt/spack@root: '"$SPACK"'@g' $SPACK/config.yaml
+sed -i 's@\$spack@'"$SPACK"'@g' $SPACK/config.yaml
+sed -i 's@\$spack@'"$SPACK"'@g' $SPACK/modules.yaml
