@@ -29,8 +29,6 @@ compression: lzo
 layout:
   /usr/include:
     bind: $SNAP/usr/include
-  #/usr/sbin:
-  #  bind: $SNAP/usr/sbin
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libc_nonshared.a:
     bind-file: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libc_nonshared.a
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libm.a:
@@ -58,6 +56,10 @@ layout:
   /usr/bin/$SNAPCRAFT_ARCH_TRIPLET/gfortran:
     symlink: $SNAP/usr/bin/gfortran
 
+plugs:
+  shared-memory:
+    private: true
+
 apps:
   spack:
     plugs:
@@ -80,6 +82,8 @@ parts:
       # https://github.com/spack/spack/pull/38036
       craftctl default
       git apply -v $SNAPCRAFT_PROJECT_DIR/chown.patch
+      # Resolve in upstream or modify search_path
+      git apply -v $SNAPCRAFT_PROJECT_DIR/path.patch
 
   spack-wrapper:
     plugin: dump
@@ -95,11 +99,13 @@ parts:
       - coreutils
       - curl
       - environment-modules
+      - file
       - gfortran
       - git
       - gpg
       - libc6-dev
       - lsb-release
+      - patchelf
       - python3
       - python3-distutils
       - python3-venv
@@ -111,13 +117,3 @@ parts:
     plugin: python
     python-packages:
       - clingo
-
-  snapcraft-preload:
-    source: https://github.com/sergiusens/snapcraft-preload.git
-    plugin: cmake
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/ -DLIBPATH=/lib
-    build-packages:
-      - on amd64:
-        - gcc-multilib
-        - g++-multilib

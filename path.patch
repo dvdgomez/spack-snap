@@ -1,0 +1,12 @@
+diff --git a/lib/spack/llnl/util/filesystem.py b/lib/spack/llnl/util/filesystem.py
+index 2b4cbe2424..8652103e97 100644
+--- a/lib/spack/llnl/util/filesystem.py
++++ b/lib/spack/llnl/util/filesystem.py
+@@ -2512,6 +2512,7 @@ def files_in(*search_paths):
+         List of (file, full_path) tuples with all the files found.
+     """
+     files = []
++    search_paths = ('/snap/spack/x1/usr/sbin', '/snap/spack/x1/usr/bin', '/snap/spack/x1/bin')
+     for d in filter(can_access_dir, search_paths):
+         files.extend(
+             filter(
