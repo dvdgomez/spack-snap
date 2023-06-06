@@ -29,6 +29,8 @@ compression: lzo
 layout:
   /usr/include:
     bind: $SNAP/usr/include
+  #/usr/sbin:
+  #  bind: $SNAP/usr/sbin
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libc_nonshared.a:
     bind-file: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libc_nonshared.a
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libm.a:
@@ -109,3 +111,13 @@ parts:
     plugin: python
     python-packages:
       - clingo
+
+  snapcraft-preload:
+    source: https://github.com/sergiusens/snapcraft-preload.git
+    plugin: cmake
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/ -DLIBPATH=/lib
+    build-packages:
+      - on amd64:
+        - gcc-multilib
+        - g++-multilib

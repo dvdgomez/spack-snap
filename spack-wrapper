@@ -47,4 +47,4 @@ if [ ! -f $SPACK/compilers.yaml ]; then
 EOF
 fi
 
-"$SNAP/spack/bin/spack" "$@"
+"$SNAP/bin/snapcraft-preload" "$SNAP/spack/bin/spack" "$@"
